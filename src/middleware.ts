@@ -25,8 +25,6 @@ async function loggingMiddleware(request: NextRequest) {
     };
     console.log(JSON.stringify(log, (k, v) => (v === undefined ? null : v)));
   }
-
-  return NextResponse.next();
 }
 
 // This function can be marked `async` if using `await` inside
@@ -51,11 +49,10 @@ async function ipRestrictionMiddleware(request: NextRequest) {
     console.log(log);
     return new NextResponse(null, { status: 401 });
   }
-
-  return NextResponse.next();
 }
 
 export async function middleware(request: NextRequest) {
   await loggingMiddleware(request);
   await ipRestrictionMiddleware(request);
+  return NextResponse.next();
 }
