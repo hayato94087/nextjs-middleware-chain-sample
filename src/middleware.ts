@@ -40,6 +40,7 @@ function ipRestrictionMiddleware(request: NextRequest) {
       return item.trim();
     })
   );
+  console.log(request.ip);
   // ホワイトリストに登録されていないIPアドレスからのアクセスは拒否します。
   if (request.ip && !ipWhiteList.has(request.ip as string)) {
     return new NextResponse(null, { status: 401 });
