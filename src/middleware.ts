@@ -53,6 +53,7 @@ function widthIpRestriction(middleware: NextMiddleware) {
       const log = {
         message: `許可されていないIPアドレスからのアクセスのためアクセスを拒否しました`,
         ip: request.ip,
+        url: request.nextUrl.pathname,
       };
       console.log(log);
       return new NextResponse(null, { status: 401 });
