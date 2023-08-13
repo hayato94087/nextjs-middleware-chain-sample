@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// This function can be marked `async` if using `await` inside
-function loggingMiddleware(request: NextRequest) {
+export function middleware(request: NextRequest) {
   // ##################################################
   // ログ出力
   //
@@ -25,10 +24,7 @@ function loggingMiddleware(request: NextRequest) {
     };
     console.log(JSON.stringify(log, (k, v) => (v === undefined ? null : v)));
   }
-}
 
-// This function can be marked `async` if using `await` inside
-function ipRestrictionMiddleware(request: NextRequest) {
   // ##################################################
   // IP制限
   //
@@ -40,21 +36,11 @@ function ipRestrictionMiddleware(request: NextRequest) {
       return item.trim();
     })
   );
-  console.log(request.ip);
-  console.log(ipWhiteList);
-  console.log(!ipWhiteList.has(request.ip as string));
-  console.log(request.ip && !ipWhiteList.has(request.ip as string));
+
   // ホワイトリストに登録されていないIPアドレスからのアクセスは拒否します。
   if (request.ip && !ipWhiteList.has(request.ip as string)) {
     return new NextResponse(null, { status: 401 });
   }
-}
-
-export function middleware(request: NextRequest) {
-  // This function can be marked `await` if function is `async`
-  loggingMiddleware(request);
-  // This function can be marked `await` if function is `async`
-  ipRestrictionMiddleware(request);
 
   return NextResponse.next();
 }
