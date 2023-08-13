@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export function middleware(request: NextRequest) {
+// This function can be marked `async` if using `await` inside
+async function loggingMiddleware(request: NextRequest) {
   // ##################################################
   // ログ出力
   //
@@ -25,6 +26,11 @@ export function middleware(request: NextRequest) {
     console.log(JSON.stringify(log, (k, v) => (v === undefined ? null : v)));
   }
 
+  return NextResponse.next();
+}
+
+// This function can be marked `async` if using `await` inside
+async function ipRestrictionMiddleware(request: NextRequest) {
   // ##################################################
   // IP制限
   //
@@ -47,4 +53,9 @@ export function middleware(request: NextRequest) {
   }
 
   return NextResponse.next();
+}
+
+export async function middleware(request: NextRequest) {
+  await loggingMiddleware(request);
+  await ipRestrictionMiddleware(request);
 }
