@@ -36,9 +36,13 @@ export function middleware(request: NextRequest) {
       return item.trim();
     })
   );
-
   // ホワイトリストに登録されていないIPアドレスからのアクセスは拒否します。
   if (request.ip && !ipWhiteList.has(request.ip as string)) {
+    const log = {
+      ip: request.ip,
+      message: `IPアドレス ${request.ip} からのアクセスは拒否されました。`,
+    };
+    console.log(log);
     return new NextResponse(null, { status: 401 });
   }
 
