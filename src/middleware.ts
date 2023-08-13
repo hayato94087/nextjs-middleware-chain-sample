@@ -39,8 +39,8 @@ export function middleware(request: NextRequest) {
   // ホワイトリストに登録されていないIPアドレスからのアクセスは拒否します。
   if (request.ip && !ipWhiteList.has(request.ip as string)) {
     const log = {
+      message: `許可されていないIPアドレスからのアクセスのためアクセスを拒否しました`,
       ip: request.ip,
-      message: `IPアドレス ${request.ip} からのアクセスは拒否されました。`,
     };
     console.log(log);
     return new NextResponse(null, { status: 401 });
