@@ -27,6 +27,7 @@ function widthLogging(middleware: NextMiddleware) {
         ip: request.ip,
         geo: request.geo,
         url: request.nextUrl.pathname,
+        method: request.method,
       };
       console.log(JSON.stringify(log, (k, v) => (v === undefined ? null : v)));
     }
@@ -54,6 +55,7 @@ function widthIpRestriction(middleware: NextMiddleware) {
         message: `許可されていないIPアドレスからのアクセスのためアクセスを拒否しました`,
         ip: request.ip,
         url: request.nextUrl.pathname,
+        method: request.method,
       };
       console.log(log);
       return new NextResponse(null, { status: 401 });
