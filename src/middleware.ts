@@ -42,7 +42,7 @@ export function middleware(request: NextRequest) {
       ip: request.ip,
       message: `IPアドレス ${request.ip} からのアクセスは拒否されました。`,
     };
-    console.warn(log);
+    console.log(log);
     return new NextResponse(null, { status: 401 });
   }
 
